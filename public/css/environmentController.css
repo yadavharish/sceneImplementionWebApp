@@ -1,0 +1,23 @@
+.environmentController {
+    position: fixed;
+    width: 90%;
+    left: 5%;
+}
+
+.environmentControllerTable {
+    text-align: center;
+}
+
+.environmentControllerTableData {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.environmentControllerHeader {
+    position: relative;
+    left: 33%;
+    font-size: 45px;
+    font-weight: 750;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}

@@ -1,0 +1,22 @@
+button {
+    border: none;
+    height: 35px;
+    width: 180px;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #1e88e5;
+    color: white;
+    margin: 3px;
+}
+
+button:focus {
+    outline: none;
+}
+
+.embeddedDeviceButton {
+    height: 20px;
+    width: fit-content;
+    border-radius: 5px;
+    font-size: 12px;
+    margin: 1px;
+}

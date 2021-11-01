@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <script src="js/SceneImplementationApp.js"></script>
+    <script src="js/Controllers/AppController.js"></script>
+    <script src="js/Controllers/LivingRoomController.js"></script>
+    <script src="js/Controllers/BedroomController.js"></script>
+    <script src="js/Controllers/EnvironmentControllerController.js"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="./css/app.css">
+    <link rel="stylesheet" href="./css/environmentController.css">
+    <link rel="stylesheet" href="./css/livingRoom.css">
+    <link rel="stylesheet" href="./css/bedroom.css">
+
+    <title>Document</title>
+</head>
+
+<body ng-app="sceneImplementationApp">
+    <div ng-controller="appController">
+        <div ng-init="showDashboard = true" ng-show="showDashboard == true">
+            <button ng-click="showLR()">Show Living Room</button>
+            <button ng-click="showBR()">Show Bedroom</button>
+            <button ng-click="showK()">Show Kitchen</button>
+            <button ng-click="showRT()">Show RoofTop</button>
+            <button ng-click="showEC()">Environment Controller</button>
+        </div>
+        <div class="environmentController" ng-controller="EnvironmentControllerController"
+            ng-show="showEnvirnomentController" ng-init="showEnvironmentController = false">
+            <i class="far fa-times-circle fa-2x environmentControllerCloseIcon" ng-click="closeEC()"></i>
+            <h1 class="environmentControllerHeader">Environment Controller</h1>
+            <table class="table table-borderless environmentControllerTable">
+                <tr>
+                    <td class="environmentControllerTableData">
+                        {{envCtrlHours}}:{{envCtrlMinutes}}
+                    </td>
+                    <td class="environmentControllerTableData">
+                        {{envCtrlDN}}
+                    </td>
+                    <td class="environmentControllerTableData">
+                        {{envCtrlD}}/{{envCtrlM}}/{{envCtrlY}}
+                    </td>
+                    <td class="environmentControllerTableData">
+                        {{envCtrlSeason}}
+                    </td>
+                    <td class="environmentControllerTableData">
+                        {{envCtrlTemp}}° C
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Time
+                    </th>
+                    <th>
+                        Day/Night
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Season
+                    </th>
+                    <th>
+                        Temperature
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <button ng-click="increaseHours()">Increase Hours</button>
+                        <br>
+                        <button ng-click="decreaseHours()">Decrease Hours</button>
+                    </td>
+                    <td>
+                        <button ng-click="changeDayNight()">Change</button>
+                    </td>
+                    <td>
+                        <button ng-click="increaseMonth()">Increase Month</button>
+                        <br>
+                        <button ng-click="decreaseMonth()">Decrease Month</button>
+                    </td>
+                    <td>
+                        <button ng-click="changeSeason()">Change</button>
+                    </td>
+                    <td>
+                        <button ng-click="increaseTemperature()">Increase Temperature</button>
+                        <br>
+                        <button ng-click="decreaseTemperature()">Decrease Temperature</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-borderless environmentControllerTable">
+                <tr>
+                    <td class="environmentControllerTableData">{{envCtrlNPLA}}</td>
+                    <td class="environmentControllerTableData">{{envCtrlNPDA}}</td>
+                </tr>
+                <tr>
+                    <th>#persons in Living Area</th>
+                    <th>#persons in Dining Area</th>
+                    <th>#persons in Bedroom</th>
+                    <th>#persons in Kitchen</th>
+                    <th>#persons at RoofTop</th>
+                </tr>
+                <tr>
+                    <td>
+                        <button ng-click="increaseNPLA()">Increase Persons</button>
+                        <br>
+                        <button ng-click="decreaseNPLA()">Decrease Persons</button>
+                    </td>
+                    <td>
+                        <button ng-click="increaseNPDA()">Increase Persons</button>
+                        <br>
+                        <button ng-click="decreaseNPDA()">Decrease Persons</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div ng-controller="LivingRoomController" class="livingRoom" ng-show="showLivingRoom"
+            ng-init="showLivingRoom = false">
+            <i class="far fa-times-circle fa-2x livingRoomCloseIcon" ng-click="closeLR()"></i>
+            <h2 class="livingRoomHeader">Living Room</h2>
+            <div class="livingArea">
+                <h2 class="livingAreaHeader">Living Area</h2>
+                <div class="livingAreaLamp"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaLampAttributeDiv">
+                    <b>Living Area Lamp</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': llaStatus == 'Off', 'greenStatus': llaStatus == 'On'}">{{llaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('lla')">Turn {{llaStatus == "On" ? "Off"
+                        : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': llaStatus == 'Off'}">
+                        BrightnessLevel: <b>{{llaBrightnessLevel}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('lla', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('lla', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="fan livingAreaFan"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaFanAttributeDiv">
+                    <b>Living Area Fan</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': flaStatus == 'Off', 'greenStatus': flaStatus == 'On'}">{{flaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('fla')">Turn {{flaStatus == "On" ? "Off"
+                        : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': flaStatus == 'Off'}">
+                        Speed: <b>{{flaSpeed}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('fla', 'speed', 'Speed', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('fla', 'speed', 'Speed', 'decrease')"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="smartBulb livingAreaSmartBulb"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaSmartBulbAttributeDiv">
+                    <b>Living Area Smart Bulb</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': sblaStatus == 'Off', 'greenStatus': sblaStatus == 'On'}">{{sblaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('sbla')">Turn {{sblaStatus == "On" ?
+                        "Off" : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': sblaStatus == 'Off'}">
+                        BrightnessLevel: <b>{{sblaBrightnessLevel}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('sbla', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('sbla', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                        </button>
+                        <br>
+                        Color: <b>{{sblaColor}}</b>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('sbla', 'color', 'Color', 'change')">Change</button>
+                    </div>
+                </div>
+                <div class="embeddedDevice airConditioner livingAreaAirConditioner"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaAirConditionerAttributeDiv">
+                    <b>Living Area Air Conditioner</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': aclaStatus == 'Off', 'greenStatus': aclaStatus == 'On'}">{{aclaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('acla')">Turn {{aclaStatus == "On" ?
+                        "Off" : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': aclaStatus == 'Off'}">
+                        FanSpeed: <b>{{aclaFanSpeed}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('acla', 'fanSpeed', 'FanSpeed', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('acla', 'fanSpeed', 'FanSpeed', 'decrease')"></i>
+                        </button>
+                        <br>
+                        Swing: <b
+                            ng-class="{'redStatus': aclaSwing == 'Off', 'greenStatus': aclaSwing == 'On'}">{{aclaSwing}}</b>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('acla', 'swing', 'Swing', 'toggle')">Turn {{aclaSwing ==
+                            "On" ? "Off" : "On"}}</button>
+                        <br>
+                        Temperature: <b>{{aclaTemperature}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('acla', 'temperature', 'Temperature', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('acla', 'temperature', 'Temperature', 'decrease')"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="heater livingAreaHeater"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaHeaterAttributeDiv">
+                    <b>Living Area Heater</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': hlaStatus == 'Off', 'greenStatus': hlaStatus == 'On'}">{{hlaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('hla')">Turn {{hlaStatus == "On" ? "Off"
+                        : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': hlaStatus == 'Off'}">
+                        FanSpeed: <b>{{hlaFanSpeed}}</b>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('hla', 'fanSpeed', 'FanSpeed', 'increase')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('hla', 'fanSpeed', 'FanSpeed', 'decrease')">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <br>
+                        Temperature: <b>{{hlaTemperature}}</b>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('hla', 'temperature', 'Temperature', 'increase')">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('hla', 'temperature', 'Temperature', 'decrease')">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="livingAreaCooler"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaCoolerAttributeDiv">
+                    <b>Living Area Cooler</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': claStatus == 'Off', 'greenStatus': claStatus == 'On'}">{{claStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('cla')">Turn {{claStatus == "On" ? "Off"
+                        : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': claStatus == 'Off'}">
+                        FanSpeed: <b>{{claFanSpeed}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('cla', 'fanSpeed', 'FanSpeed', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('cla', 'fanSpeed', 'FanSpeed', 'decrease')"></i>
+                        </button>
+                        <br>
+                        Swing: <b
+                            ng-class="{'redStatus': claSwing == 'Off', 'greenStatus': claSwing == 'On'}">{{claSwing}}</b>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('cla', 'swing', 'Swing', 'toggle')">Turn {{claSwing ==
+                            "On" ? "Off" : "On"}}</button>
+                        <br>
+                        Mist: <b
+                            ng-class="{'redStatus': claMist == 'Off', 'greenStatus': claMist == 'On'}">{{claMist}}</b>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('cla', 'mist', 'Mist', 'toggle')">Turn {{claMist ==
+                            "On" ? "Off" : "On"}}</button>
+                        <br>
+                    </div>
+                </div>
+                <div class="tubelight livingAreaTubelight"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaTubelightAttributeDiv">
+                    <b>Living Area Tubelight</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': tblaStatus == 'Off', 'greenStatus': tblaStatus == 'On'}">{{tblaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('tbla')">Turn {{tblaStatus == "On" ?
+                        "Off" : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': tblaStatus == 'Off'}">
+                        BrightnessLevel: <b>{{tblaBrightnessLevel}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('tbla', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('tbla', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="livingAreaTelevision"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaTelevisionAttributeDiv">
+                    <b>Living Area Television</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': tvlaStatus == 'Off', 'greenStatus': tvlaStatus == 'On'}">{{tvlaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('tvla')">Turn {{tvlaStatus == "On" ?
+                        "Off" : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': tvlaStatus == 'Off'}">
+                        ChannelNumber: <b>{{tvlaChannelNumber}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('tvla', 'channelNumber', 'ChannelNumber', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('tvla', 'channelNumber', 'ChannelNumber', 'decrease')"></i>
+                        </button>
+                        <br>
+                        VolumeLevel: <b>{{tvlaVolumeLevel}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('tvla', 'volumeLevel', 'VolumeLevel', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('tvla', 'volumeLevel', 'VolumeLevel', 'decrease')"></i>
+                        </button>
+                        <br>
+                        BrightnessLevel: <b>{{tvlaBrightnessLevel}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('tvla', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('tvla', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="livingAreaCurtains"></div>
+                <div class="embeddedDeviceAttributeDiv livingAreaCurtainsAttributeDiv">
+                    <b>Living Area Curtains</b>
+                    <br>
+                    Position: <b
+                        ng-class="{'redStatus': curlaPosition == 'Closed', 'greenStatus': curlaPosition == 'Open'}">{{curlaPosition}}</b>
+                    <button class="embeddedDeviceButton"
+                        ng-click="updateDeviceAttribute('curla', 'position', 'Position', 'toggle')">{{curlaPosition ==
+                        "Closed" ? "Open" : "Close"}}</button>
+                </div>
+            </div>
+            <div class="partition"></div>
+            <div class="diningArea">
+                <h2 class="diningAreaHeader">Dining Area</h2>
+                <div class="fan diningAreaFan"></div>
+                <div class="embeddedDeviceAttributeDiv diningAreaFanAttributeDiv">
+                    <b>Dining Area Fan</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': fdaStatus == 'Off', 'greenStatus': fdaStatus == 'On'}">{{fdaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('fda')">Turn {{fdaStatus == "On" ? "Off"
+                        : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': fdaStatus == 'Off'}">
+                        Speed: <b>{{fdaSpeed}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('fda', 'speed', 'Speed', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('fda', 'speed', 'Speed', 'decrease')"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="smartBulb diningAreaSmartBulb"></div>
+                <div class="embeddedDeviceAttributeDiv diningAreaSmartBulbAttributeDiv">
+                    <b>Dining Area Smart Bulb</b>
+                    <br>
+                    Status: <b
+                        ng-class="{'redStatus': sbdaStatus == 'Off', 'greenStatus': sbdaStatus == 'On'}">{{sbdaStatus}}</b>
+                    <button class="embeddedDeviceButton" ng-click="changeStatus('sbda')">Turn {{sbdaStatus == "On" ?
+                        "Off" : "On"}}</button>
+                    <br>
+                    <div ng-class="{'hideAttributes': sbdaStatus == 'Off'}">
+                        BrightnessLevel: <b>{{sbdaBrightnessLevel}}</b>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-up"
+                                ng-click="updateDeviceAttribute('sbda', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                        </button>
+                        <button class="embeddedDeviceButton">
+                            <i class="fas fa-chevron-down"
+                                ng-click="updateDeviceAttribute('sbda', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                        </button>
+                        <br>
+                        Color: <b>{{sbdaColor}}</b>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('sbda', 'color', 'Color', 'change')">Change</button>
+                    </div>
+                    <div class="airConditioner diningAreaAirConditioner"></div>
+                    <div class="embeddedDeviceAttributeDiv diningAreaAirConditionerAttributeDiv">
+                        <b>Dining Area Air Conditioner</b>
+                        <br>
+                        Status: <b
+                            ng-class="{'redStatus': acdaStatus == 'Off', 'greenStatus': acdaStatus == 'On'}">{{acdaStatus}}</b>
+                        <button class="embeddedDeviceButton" ng-click="changeStatus('acda')">Turn {{acdaStatus == "On" ?
+                            "Off" : "On"}}</button>
+                        <br>
+                        <div ng-class="{'hideAttributes': acdaStatus == 'Off'}">
+                            FanSpeed: <b>{{acdaFanSpeed}}</b>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-up"
+                                    ng-click="updateDeviceAttribute('acda', 'fanSpeed', 'FanSpeed', 'increase')"></i>
+                            </button>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-down"
+                                    ng-click="updateDeviceAttribute('acda', 'fanSpeed', 'FanSpeed', 'decrease')"></i>
+                            </button>
+                            <br>
+                            Swing: <b
+                                ng-class="{'redStatus': acdaSwing == 'Off', 'greenStatus': acdaSwing == 'On'}">{{acdaSwing}}</b>
+                            <button class="embeddedDeviceButton"
+                                ng-click="updateDeviceAttribute('acda', 'swing', 'Swing', 'toggle')">Turn {{acdaSwing ==
+                                "On" ? "Off" : "On"}}</button>
+                            <br>
+                            Temperature: <b>{{acdaTemperature}}</b>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-up"
+                                    ng-click="updateDeviceAttribute('acda', 'temperature', 'Temperature', 'increase')"></i>
+                            </button>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-down"
+                                    ng-click="updateDeviceAttribute('acda', 'temperature', 'Temperature', 'decrease')"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="heater diningAreaHeater"></div>
+                    <div class="embeddedDeviceAttributeDiv diningAreaHeaterAttributeDiv">
+                        <b>Dining Area Heater</b>
+                        <br>
+                        Status: <b
+                            ng-class="{'redStatus': hdaStatus == 'Off', 'greenStatus': hdaStatus == 'On'}">{{hdaStatus}}</b>
+                        <button class="embeddedDeviceButton" ng-click="changeStatus('hda')">Turn {{hdaStatus == "On" ?
+                            "Off"
+                            : "On"}}</button>
+                        <br>
+                        <div ng-class="{'hideAttributes': hdaStatus == 'Off'}">
+                            FanSpeed: <b>{{hdaFanSpeed}}</b>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-up"
+                                    ng-click="updateDeviceAttribute('hda', 'fanSpeed', 'FanSpeed', 'increase')"></i>
+                            </button>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-down"
+                                    ng-click="updateDeviceAttribute('hda', 'fanSpeed', 'FanSpeed', 'decrease')"></i>
+                            </button>
+                            <br>
+                            Temperature: <b>{{hdaTemperature}}</b>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-up"
+                                    ng-click="updateDeviceAttribute('hda', 'temperature', 'Temperature', 'increase')"></i>
+                            </button>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-down"
+                                    ng-click="updateDeviceAttribute('hda', 'temperature', 'Temperature', 'decrease')"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tubelight diningAreaTubelight"></div>
+                    <div class="embeddedDeviceAttributeDiv diningAreaTubelightAttributeDiv">
+                        <b>Dining Area Tubelight</b>
+                        <br>
+                        Status: <b
+                            ng-class="{'redStatus': tbdaStatus == 'Off', 'greenStatus': tbdaStatus == 'On'}">{{tbdaStatus}}</b>
+                        <button class="embeddedDeviceButton" ng-click="changeStatus('tbda')">Turn {{tbdaStatus == "On" ?
+                            "Off" : "On"}}</button>
+                        <br>
+                        <div ng-class="{'hideAttributes': tbdaStatus == 'Off'}">
+                            BrightnessLevel: <b>{{tbdaBrightnessLevel}}</b>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-up"
+                                    ng-click="updateDeviceAttribute('tbda', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                            </button>
+                            <button class="embeddedDeviceButton">
+                                <i class="fas fa-chevron-down"
+                                    ng-click="updateDeviceAttribute('tbda', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="entranceDoor"></div>
+                    <div class="embeddedDeviceAttributeDiv entranceDoorAttributeDiv">
+                        <b>Entrance Door</b>
+                        <br>
+                        Lock: <b
+                            ng-class="{'redStatus': entdoorLock == 'Lock', 'greenStatus': entdoorLock == 'Unlock'}">{{entdoorLock}}ed</b>
+                        <button class="embeddedDeviceButton"
+                            ng-click="updateDeviceAttribute('entdoor', 'lock', 'Lock', 'toggle')">{{entdoorLock
+                            == "Lock" ? "Unlock" : "Lock"}}</button>
+                        <br>
+                        <div ng-class="{'hideAttributes': entdoorLock == 'Lock'}">
+                            Position: <b
+                                ng-class="{'redStatus': entdoorPosition == 'Closed', 'greenStatus': entdoorPosition == 'Open'}">{{entdoorPosition}}</b>
+                            <button class="embeddedDeviceButton"
+                                ng-click="updateDeviceAttribute('entdoor', 'position', 'Position', 'toggle')">{{entdoorPosition
+                                == "Open" ? "Close" : "Open"}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-controller="BedroomController" class="bedroom" ng-show="showBedroom" ng-init="showLivingRoom = false">
+            <i class="far fa-times-circle fa-2x livingRoomCloseIcon" ng-click="closeLR()"></i>
+            <h2 class="bedroomHeader">Bedroom</h2>
+            <div class="bedroomLampLeft"></div>
+            <div class="embeddedDeviceAttributeDiv livingAreaLampAttributeDiv">
+                <b>Living Area Lamp</b>
+                <br>
+                Status: <b
+                    ng-class="{'redStatus': llaStatus == 'Off', 'greenStatus': llaStatus == 'On'}">{{llaStatus}}</b>
+                <button class="embeddedDeviceButton" ng-click="changeStatus('lla')">Turn {{llaStatus == "On" ?
+                    "Off"
+                    : "On"}}</button>
+                <br>
+                <div ng-class="{'hideAttributes': llaStatus == 'Off'}">
+                    BrightnessLevel: <b>{{llaBrightnessLevel}}</b>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-up"
+                            ng-click="updateDeviceAttribute('lla', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                    </button>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-down"
+                            ng-click="updateDeviceAttribute('lla', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="bedroomLampRight"></div>
+            <div class="embeddedDeviceAttributeDiv livingAreaLampAttributeDiv">
+                <b>Living Area Lamp</b>
+                <br>
+                Status: <b
+                    ng-class="{'redStatus': llaStatus == 'Off', 'greenStatus': llaStatus == 'On'}">{{llaStatus}}</b>
+                <button class="embeddedDeviceButton" ng-click="changeStatus('lla')">Turn {{llaStatus == "On" ?
+                    "Off"
+                    : "On"}}</button>
+                <br>
+                <div ng-class="{'hideAttributes': llaStatus == 'Off'}">
+                    BrightnessLevel: <b>{{llaBrightnessLevel}}</b>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-up"
+                            ng-click="updateDeviceAttribute('lla', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                    </button>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-down"
+                            ng-click="updateDeviceAttribute('lla', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="bedroomFan"></div>
+            <div class="embeddedDeviceAttributeDiv livingAreaFanAttributeDiv">
+                <b>Living Area Fan</b>
+                <br>
+                Status: <b
+                    ng-class="{'redStatus': flaStatus == 'Off', 'greenStatus': flaStatus == 'On'}">{{flaStatus}}</b>
+                <button class="embeddedDeviceButton" ng-click="changeStatus('fla')">Turn {{flaStatus == "On" ?
+                    "Off"
+                    : "On"}}</button>
+                <br>
+                <div ng-class="{'hideAttributes': flaStatus == 'Off'}">
+                    Speed: <b>{{flaSpeed}}</b>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-up"
+                            ng-click="updateDeviceAttribute('fla', 'speed', 'Speed', 'increase')"></i>
+                    </button>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-down"
+                            ng-click="updateDeviceAttribute('fla', 'speed', 'Speed', 'decrease')"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="bedroomSmartBulb"></div>
+            <div class="embeddedDeviceAttributeDiv livingAreaSmartBulbAttributeDiv">
+                <b>Living Area Smart Bulb</b>
+                <br>
+                Status: <b
+                    ng-class="{'redStatus': sblaStatus == 'Off', 'greenStatus': sblaStatus == 'On'}">{{sblaStatus}}</b>
+                <button class="embeddedDeviceButton" ng-click="changeStatus('sbla')">Turn {{sblaStatus == "On" ?
+                    "Off" : "On"}}</button>
+                <br>
+                <div ng-class="{'hideAttributes': sblaStatus == 'Off'}">
+                    BrightnessLevel: <b>{{sblaBrightnessLevel}}</b>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-up"
+                            ng-click="updateDeviceAttribute('sbla', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                    </button>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-down"
+                            ng-click="updateDeviceAttribute('sbla', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                    </button>
+                    <br>
+                    Color: <b>{{sblaColor}}</b>
+                    <button class="embeddedDeviceButton"
+                        ng-click="updateDeviceAttribute('sbla', 'color', 'Color', 'change')">Change</button>
+                </div>
+            </div>
+            <div class="bedroomAirConditioner"></div>
+            <div class="embeddedDeviceAttributeDiv livingAreaAirConditionerAttributeDiv">
+                <b>Living Area Air Conditioner</b>
+                <br>
+                Status: <b
+                    ng-class="{'redStatus': aclaStatus == 'Off', 'greenStatus': aclaStatus == 'On'}">{{aclaStatus}}</b>
+                <button class="embeddedDeviceButton" ng-click="changeStatus('acla')">Turn {{aclaStatus == "On" ?
+                    "Off" : "On"}}</button>
+                <br>
+                <div ng-class="{'hideAttributes': aclaStatus == 'Off'}">
+                    FanSpeed: <b>{{aclaFanSpeed}}</b>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-up"
+                            ng-click="updateDeviceAttribute('acla', 'fanSpeed', 'FanSpeed', 'increase')"></i>
+                    </button>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-down"
+                            ng-click="updateDeviceAttribute('acla', 'fanSpeed', 'FanSpeed', 'decrease')"></i>
+                    </button>
+                    <br>
+                    Swing: <b
+                        ng-class="{'redStatus': aclaSwing == 'Off', 'greenStatus': aclaSwing == 'On'}">{{aclaSwing}}</b>
+                    <button class="embeddedDeviceButton"
+                        ng-click="updateDeviceAttribute('acla', 'swing', 'Swing', 'toggle')">Turn {{aclaSwing ==
+                        "On" ? "Off" : "On"}}</button>
+                    <br>
+                    Temperature: <b>{{aclaTemperature}}</b>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-up"
+                            ng-click="updateDeviceAttribute('acla', 'temperature', 'Temperature', 'increase')"></i>
+                    </button>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-down"
+                            ng-click="updateDeviceAttribute('acla', 'temperature', 'Temperature', 'decrease')"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="bedroomHeater"></div>
+            <div class="embeddedDeviceAttributeDiv livingAreaHeaterAttributeDiv">
+                <b>Living Area Heater</b>
+                <br>
+                Status: <b
+                    ng-class="{'redStatus': hlaStatus == 'Off', 'greenStatus': hlaStatus == 'On'}">{{hlaStatus}}</b>
+                <button class="embeddedDeviceButton" ng-click="changeStatus('hla')">Turn {{hlaStatus == "On" ?
+                    "Off"
+                    : "On"}}</button>
+                <br>
+                <div ng-class="{'hideAttributes': hlaStatus == 'Off'}">
+                    FanSpeed: <b>{{hlaFanSpeed}}</b>
+                    <button class="embeddedDeviceButton"
+                        ng-click="updateDeviceAttribute('hla', 'fanSpeed', 'FanSpeed', 'increase')">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                    <button class="embeddedDeviceButton"
+                        ng-click="updateDeviceAttribute('hla', 'fanSpeed', 'FanSpeed', 'decrease')">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <br>
+                    Temperature: <b>{{hlaTemperature}}</b>
+                    <button class="embeddedDeviceButton"
+                        ng-click="updateDeviceAttribute('hla', 'temperature', 'Temperature', 'increase')">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                    <button class="embeddedDeviceButton"
+                        ng-click="updateDeviceAttribute('hla', 'temperature', 'Temperature', 'decrease')">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="bedroomTubelight"></div>
+            <div class="embeddedDeviceAttributeDiv livingAreaTubelightAttributeDiv">
+                <b>Living Area Tubelight</b>
+                <br>
+                Status: <b
+                    ng-class="{'redStatus': tblaStatus == 'Off', 'greenStatus': tblaStatus == 'On'}">{{tblaStatus}}</b>
+                <button class="embeddedDeviceButton" ng-click="changeStatus('tbla')">Turn {{tblaStatus == "On" ?
+                    "Off" : "On"}}</button>
+                <br>
+                <div ng-class="{'hideAttributes': tblaStatus == 'Off'}">
+                    BrightnessLevel: <b>{{tblaBrightnessLevel}}</b>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-up"
+                            ng-click="updateDeviceAttribute('tbla', 'brightnessLevel', 'BrightnessLevel', 'increase')"></i>
+                    </button>
+                    <button class="embeddedDeviceButton">
+                        <i class="fas fa-chevron-down"
+                            ng-click="updateDeviceAttribute('tbla', 'brightnessLevel', 'BrightnessLevel', 'decrease')"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="bedroomCurtains"></div>
+            <div class="embeddedDeviceAttributeDiv livingAreaCurtainsAttributeDiv">
+                <b>Living Area Curtains</b>
+                <br>
+                Position: <b
+                    ng-class="{'redStatus': curlaPosition == 'Closed', 'greenStatus': curlaPosition == 'Open'}">{{curlaPosition}}</b>
+                <button class="embeddedDeviceButton"
+                    ng-click="updateDeviceAttribute('curla', 'position', 'Position', 'toggle')">{{curlaPosition
+                    == "Closed" ? "Open" : "Close"}}</button>
+            </div>
+        </div>
+
+
+</body>
+
+</html>

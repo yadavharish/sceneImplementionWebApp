@@ -1,0 +1,292 @@
+.livingRoom {
+    position: fixed;
+    left: 2%;
+    top: 10%;
+    height: 88%;
+    width: 96%;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+.livingAreaLamp {
+    position: fixed;
+    top: 10%;
+    left: 94%;
+    height: 8%;
+    width: 4%;
+    border: 2px solid brown;
+    border-radius: 50%;
+    background-color: rgba(165, 42, 42, 0.719);
+}
+
+.livingAreaLampAttributeDiv {
+    top: 15%;
+    left: 85%;
+}
+
+.fan {
+    position: fixed;
+    height: 10%;
+    width: 5%;
+    border-radius: 50%;
+    border: 2px solid rgb(151, 113, 113);
+    background-color: rosybrown;
+    top: 47%;
+}
+
+.livingAreaFan {
+    left: 72%;
+}
+
+.livingAreaFanAttributeDiv {
+    top: 57%;
+    left: 70.5%;
+}
+
+.diningAreaFan {
+    left: 23%;
+}
+
+.diningAreaFanAttributeDiv {
+    top: 57%;
+    left: 21%;
+}
+
+.partition {
+    position: fixed;
+    left: 49%;
+    top: 10%;
+    height: 65%;
+    width: 2%;
+    border: 3px solid rgb(94, 45, 45);
+    background-color: rgba(94, 45, 45, 0.808);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.smartBulb {
+    position: fixed;
+    height: 5%;
+    width: 2.5%;
+    border-radius: 50%;
+    border: 1px solid purple;
+    background-color: rgba(128, 0, 128, 0.322);
+    top: 10%;
+}
+
+.livingAreaSmartBulb {
+    left: 55%;
+}
+
+.livingAreaSmartBulbAttributeDiv {
+    top: 15%;
+    left: 51.5%;
+}
+
+.diningAreaSmartBulb {
+    left: 7%;
+}
+
+.diningAreaSmartBulbAttributeDiv {
+    top: 15%;
+    left: 3%;
+}
+
+.airConditioner {
+    position: fixed;
+    height: 35%;
+    width: 4%;
+    border: 1px solid blue;
+    background-color: rgba(0, 0, 255, 0.356);
+    top: 37%;
+    border-radius: 5px;
+}
+
+.livingAreaAirConditioner {
+    left: 92%;
+}
+
+.livingAreaAirConditionerAttributeDiv {
+    top: 47%;
+    left: 80.5%;
+}
+
+.diningAreaAirConditioner {
+    left: 2%;
+}
+
+.diningAreaAirConditionerAttributeDiv {
+    top: 47%;
+    left: 6.5%;
+}
+
+.tubelight {
+    position: fixed;
+    height: 2%;
+    width: 25%;
+    border: 1px solid rgb(0, 0, 0);
+    background-color: rgb(255, 255, 0);
+    top: 10%;
+    border-radius: 5px;
+}
+
+.livingAreaTubelight {
+    left: 64%;
+}
+
+.livingAreaTubelightAttributeDiv {
+    top: 12%;
+    left: 72%;
+}
+
+.diningAreaTubelight {
+    left: 17%;
+}
+
+.diningAreaTubelightAttributeDiv {
+    top: 12%;
+    left: 25%;
+}
+
+.livingAreaTelevision {
+    position: fixed;
+    height: 4%;
+    width: 20%;
+    border: 1px solid rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    top: 94%;
+    left: 65%;
+    border-radius: 5px;
+}
+
+.livingAreaTelevisionAttributeDiv {
+    top: 78%;
+    left: 69%;
+}
+
+.heater {
+    position: fixed;
+    height: 15%;
+    width: 3%;
+    border: 1px solid red;
+    background-color: rgba(255, 0, 0, 0.473);
+    top: 52%;
+    border-radius: 5px;
+}
+
+.diningAreaHeater {
+    left: 46%;
+}
+
+.diningAreaHeaterAttributeDiv {
+    top: 53%;
+    left: 36%;
+}
+
+.livingAreaHeater {
+    left: 51%;
+}
+
+.livingAreaHeaterAttributeDiv {
+    top: 53%;
+    left: 54.5%;
+}
+
+.entranceDoor {
+    position: fixed;
+    height: 2.5%;
+    width: 12%;
+    border: 1px solid black;
+    background-color: rgb(100, 25, 25);
+    top: 95%;
+    left: 35%;
+    border-radius: 5px;
+}
+
+.entranceDoorAttributeDiv {
+    top: 86%;
+    left: 36.5%;
+}
+
+.livingAreaCurtains {
+    position: fixed;
+    height: 60%;
+    width: 1.5%;
+    border: 1px solid green;
+    background-color: rgba(0, 128, 0, 0.342);
+    top: 28%;
+    left: 96.5%;
+    border-radius: 5px;
+}
+
+.livingAreaCurtainsAttributeDiv {
+    top: 77%;
+    left: 87%;
+}
+
+.livingAreaCooler {
+    position: fixed;
+    height: 15%;
+    width: 5%;
+    border: 1px solid blueviolet;
+    background-color: rgba(137, 43, 226, 0.507);
+    top: 32%;
+    left: 51%;
+    border-radius: 5px;
+}
+
+.livingAreaCoolerAttributeDiv {
+    top: 32%;
+    left: 56.5%;
+}
+
+.embeddedDeviceAttributeDiv {
+    position: fixed;
+    font-size: 13px;
+    text-align: center;
+}
+
+.livingRoomHeader {
+    position: fixed;
+    top: 2.5%;
+    left: 44.5%;
+    font-weight: 700;
+}
+
+.livingRoomCloseIcon {
+    position: fixed;
+    top: 2%;
+    left: 2%;
+}
+
+.livingRoomCloseIcon:hover {
+    cursor: pointer;
+}
+
+.livingAreaHeader {
+    position: fixed;
+    top: 34%;
+    left: 72%;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.diningAreaHeader {
+    position: fixed;
+    top: 34%;
+    left: 22%;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.redStatus {
+    color: red;
+}
+
+.greenStatus {
+    color: green;
+}
+
+.hideAttributes {
+    opacity: 0;
+}
